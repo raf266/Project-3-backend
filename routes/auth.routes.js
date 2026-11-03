@@ -97,8 +97,12 @@ router.post("/sign-in", async (req, res) => {
     return res.status(200).json({
       accessToken,
       user: {
-        _id: user._id,
-        username: user.username,
+       _id: user._id,
+    username: user.username,
+    name: user.name,
+    email: user.email,
+    bio: user.bio,
+    profileImage: user.profileImage,
       },
     });
   } catch (err) {
