@@ -1,37 +1,34 @@
-import mongoose from "mongoose"
+const mongoose = require("mongoose");
 
-const sessionSchema = new mongoose.Schema({
-    requesterId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
-    providerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
-    skillId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: true
-    },
+const sessionSchema = new mongoose.Schema(
+  {
     date: {
-        type: Date,
-        required: true
+      type: Date
     },
     status: {
-        type: String,
-        enum: ["Pending", "Accepted", "Completed", "Cancelled"], 
-        default: "Pending"
-    }, 
+      type: String
+    },
     message: {
-        type: String,
-        default: "",
-        trim: true
-    }
-}, {timestamps: true})
+      type: String
+    },
+    requesterID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    providerID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    skillID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Skill"
+    },
 
-const Session = mongoose.model("Session", sessionSchema)
+  },
+  { timestamps: true },
+);
 
-export default Session
+
+const Session = mongoose.model("Session", sessionSchema);
+
+module.exports = Session;
