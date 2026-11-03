@@ -13,8 +13,28 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true
     },
+    name: {
+  type: String,
+  trim: true,
+},
+email: {
+  type: String,
+  required: true,
+  unique: true,
+  trim: true,
+  lowercase: true,
+},
+bio: {
+  type: String,
+  trim: true,
+},
+profileImage: {
+  type: String,
+},
+
   },
   { timestamps: true },
+  
 );
 
 userSchema.set("toJSON", {
