@@ -5,43 +5,65 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 
+
 router.post("/sign-up", async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, name, email, bio } = req.body;
 
     // Validation
-    if (!username || !password) return res.status(400).json({message: "Username and password are required.",});
-    if (password.length < 6) return res.status(400).json({message: "Password must be more than 6 characters",});
+    if (!username || !password || !name || !email) {
+      return res.status(400).json({
+        message: "Username, password, name, and email are required.",
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        message: "Password must be more than 6 characters",
+      });
+    }
 
     const user = await User.create({
       username,
+      email,
+      name,
+      bio,
       hashedPassword: await bcrypt.hash(password, 12),
     });
 
     const { _id, createdAt, updatedAt } = user;
 
-    res
-      .status(201)
-      .json({ username: user.username, _id, createdAt, updatedAt });
+    res.status(201).json({
+      username: user.username,
+      name: user.name,
+      email: user.email,
+      bio: user.bio,
+      _id,
+      createdAt,
+      updatedAt,
+    });
+
   } catch (err) {
     console.log(err);
+
     if (err.name === "ValidationError") {
       return res.status(400).json({
         message: err.message,
       });
     }
+
     if (err.code === 11000) {
       return res.status(409).json({
-        message: "Username already exists",
+        message: "Username or email already exists",
       });
     }
 
-    console.log(err);
     return res.status(500).json({
       message: "Internal Server Error",
     });
   }
 });
+
 
 router.post("/sign-in", async (req, res) => {
   try {
@@ -75,8 +97,12 @@ router.post("/sign-in", async (req, res) => {
     return res.status(200).json({
       accessToken,
       user: {
-        _id: user._id,
-        username: user.username,
+       _id: user._id,
+    username: user.username,
+    name: user.name,
+    email: user.email,
+    bio: user.bio,
+    profileImage: user.profileImage,
       },
     });
   } catch (err) {
