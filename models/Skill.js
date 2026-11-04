@@ -9,7 +9,7 @@ const skillSchema = new mongoose.Schema ({
     title: {
         type: String,
         required: true,
-        trime: true
+        trim: true
     }, 
     description: {
         type: String,
@@ -35,4 +35,4 @@ const skillSchema = new mongoose.Schema ({
 
 const Skill = mongoose.model("Skill", skillSchema)
 
-export default Skill
+module.exports = Skill;
