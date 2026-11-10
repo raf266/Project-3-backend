@@ -24,7 +24,7 @@ app.use(morgan('dev'))
 // Routes
 app.use('/auth', authRoutes)
 app.use('/users', userRoutes)
-app.use('/api/skills', skillRoutes)
+app.use('/skills', skillRoutes)
 app.use('/api/sessions', sessionRoutes)
 
 // Connect to database and listen on Port 3000
