@@ -153,28 +153,37 @@ router.patch("/:id/cancel", async (req, res) => {
     }
 
     const userId = req.user._id.toString();
+    const isRequester = session.requesterId.toString() === userId;
+    const isTeacher = session.providerId.toString() === userId;
 
-    if (
-      session.requesterId.toString() !== userId &&
-      session.providerId.toString() !== userId
-    ) {
+    if (!isRequester && !isTeacher) {
       return res.status(403).json({ message: "Not authorized" });
     }
 
+    if (session.status === "Pending" && !isTeacher) {
+      return res.status(403).json({
+        message: "Only the teacher can cancel a pending request"
+      });
+    }
+
     if (!["Pending", "Accepted"].includes(session.status)) {
-      return res.status(400).json({ message: "This session cannot be cancelled" });
+      return res.status(400).json({
+        message: "This session cannot be cancelled"
+      });
     }
 
     session.status = "Cancelled";
     await session.save();
 
-    res.status(200).json({ message: "Session cancelled successfully", session });
+    res.status(200).json({
+      message: "Session cancelled successfully",
+      session
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error cancelling session" });
   }
 });
-
 // COMPLETE SESSION
 router.patch("/:id/complete", async (req, res) => {
   try {
