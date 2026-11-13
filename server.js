@@ -11,7 +11,7 @@ const authRoutes = require('./routes/auth.routes')
 const userRoutes = require('./routes/user-routes')
 const skillRoutes = require('./routes/skill.routes')
 const sessionRoutes = require('./routes/session.routes')
-
+const messageRoutes = require('./routes/message.routes')
 // Middleware
 app.use(
     cors({
@@ -26,7 +26,7 @@ app.use('/auth', authRoutes)
 app.use('/users', userRoutes)
 app.use('/skills', skillRoutes)
 app.use('/api/sessions', sessionRoutes)
-
+app.use('/api/messages', messageRoutes)
 // Connect to database and listen on Port 3000
 async function startServer() {
     const PORT = process.env.PORT || 3000
