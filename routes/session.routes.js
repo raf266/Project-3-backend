@@ -4,11 +4,18 @@ const mongoose = require("mongoose");
 const Session = require("../models/Session");
 const Skill = require("../models/Skill");
 const verifyToken = require("../middleware/verifyToken");
-
+const Notification = require("../models/Notification");
 const router = express.Router();
 
 router.use(verifyToken);
-
+// CREATE NOTIFICATION
+async function sendNotification(data) {
+  try {
+    await Notification.create(data);
+  } catch (error) {
+    console.error("Failed to create notification:", error);
+  }
+}
 // CREATE SESSION
 router.post("/", async (req, res) => {
   try {
@@ -49,7 +56,13 @@ router.post("/", async (req, res) => {
       message,
       status: "Pending"
     });
-
+await sendNotification({
+  recipientId: providerId,
+  senderId: requesterId,
+  type: "session_request",
+  message: `Someone requested your ${skill.title} session.`,
+  relatedId: session._id,
+});
     res.status(201).json({ message: "Session created successfully", session });
   } catch (error) {
     console.error(error);
@@ -100,7 +113,13 @@ router.patch("/:id/accept", async (req, res) => {
 
     session.status = "Accepted";
     await session.save();
-
+await sendNotification({
+  recipientId: session.requesterId,
+  senderId: req.user._id,
+  type: "session_accepted",
+  message: "Your session request has been accepted!",
+  relatedId: session._id,
+});
     res.status(200).json({ message: "Session accepted successfully", session });
   } catch (error) {
     console.error(error);
@@ -131,7 +150,13 @@ router.patch("/:id/reject", async (req, res) => {
 
     session.status = "Rejected";
     await session.save();
-
+await sendNotification({
+  recipientId: session.requesterId,
+  senderId: req.user._id,
+  type: "session_declined",
+  message: "Your session request was declined.",
+  relatedId: session._id,
+});
     res.status(200).json({ message: "Session rejected successfully", session });
   } catch (error) {
     console.error(error);
@@ -174,7 +199,17 @@ router.patch("/:id/cancel", async (req, res) => {
 
     session.status = "Cancelled";
     await session.save();
+const recipientId = isRequester
+  ? session.providerId
+  : session.requesterId;
 
+await sendNotification({
+  recipientId,
+  senderId: req.user._id,
+  type: "session_cancelled",
+  message: "A session you're participating in was cancelled.",
+  relatedId: session._id,
+});
     res.status(200).json({
       message: "Session cancelled successfully",
       session

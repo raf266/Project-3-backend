@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const router = express.Router();
 
 const Message = require("../models/Message");
+const Notification = require("../models/Notification");
 const User = require("../models/User");
 const verifyToken = require("../middleware/verifyToken");
 
@@ -129,7 +130,18 @@ router.post("/:userId", async (req, res) => {
       receiverId: otherUserId,
       content: content.trim(),
     });
-
+// CREATE MESSAGE NOTIFICATION
+try {
+  await Notification.create({
+    recipientId: otherUserId,
+    senderId: req.user._id,
+    type: "new_message",
+    message: "You received a new message.",
+    relatedId: message._id,
+  });
+} catch (notificationError) {
+  console.error("Failed to create message notification:", notificationError);
+}
     res.status(201).json(message);
   } catch (error) {
     res.status(500).json({ message: error.message });
