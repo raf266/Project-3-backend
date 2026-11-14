@@ -30,7 +30,21 @@ const skillSchema = new mongoose.Schema ({
         type: String,
         enum: ["Teach", "Learn"],
         required: true
-    }
+    },
+    availability: [{
+        date: {
+            type: Date,
+            required: true
+        },
+        startTime: {
+            type: String,
+            required: true
+        },
+        endTime: {
+            type: String,
+            required: true
+        }
+    }]
 }, {timestamps: true})
 
 const Skill = mongoose.model("Skill", skillSchema)
