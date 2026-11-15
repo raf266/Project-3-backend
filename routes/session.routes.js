@@ -32,9 +32,6 @@ router.post("/", async (req, res) => {
       return res.status(404).json({ message: "Skill not found" });
     }
 
-    if (skill.type !== "Teach") {
-      return res.status(400).json({ message: "Only teaching skills can be requested" });
-    }
 
     const providerId = skill.userId;
 
