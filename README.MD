@@ -12,9 +12,9 @@ Students can create **Teach** and **Learn** skill listings, connect with other s
 
 ## Related Links
 
-- **Backend API:** [Add deployed backend URL]
-- **Frontend Application:** [Add deployed frontend URL]
-- **Frontend Repository:** https://github.com/raf266/Project-3-frontend
+- **Backend API:** https://project-3-backend-y717.onrender.com
+- **Frontend Application:** https://skillswap100.netlify.app/
+- **Frontend Repository:** https://github.com/raf266/SkillSwap-Frontend
 
 ## Technologies Used
 
@@ -27,7 +27,6 @@ Students can create **Teach** and **Learn** skill listings, connect with other s
 - Authentication middleware
 - Rate-limiting middleware
 
-**Note:** Check `package.json` to confirm whether bcrypt, dotenv, Morgan, Jest, or Supertest are installed before adding them to this list.
 
 ## Features
 
@@ -111,8 +110,8 @@ Install the following before running the project:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/raf266/Project-3-backend.git
-cd Project-3-backend
+git clone https://github.com/raf266/SkillSwap-Backend.git
+cd SkillSwap-Backend
 ```
 
 ### 2. Install dependencies
@@ -131,8 +130,6 @@ MONGODB_URI=your-mongodb-connection-string
 CLIENT_URL=http://localhost:5173
 JWT_SECRET=your-secure-jwt-secret
 ```
-
-**Important:** These are example environment variable names. Check `server.js` and your authentication configuration to verify the exact names.
 
 Do not commit `.env` to GitHub.
 
@@ -220,7 +217,6 @@ The Message model stores communication between students.
 | Recipient reference | User receiving the message |
 | Message content | Text sent between users |
 
-Check `models/Message.js` for the exact field names and constraints.
 
 ### Notification
 
@@ -249,21 +245,8 @@ SkillSwap uses MongoDB ObjectId references to connect related data.
 
 ### Entity Relationship Diagram (ERD)
 
-[Insert your ERD image here]
+![SkillSwap Entity Relationship Diagram](pics/SkillSwap_ERD.png)
 
-## API Base URL
-
-### Local Development
-
-```text
-http://localhost:3000
-```
-
-### Production
-
-```text
-[Add deployed backend URL]
-```
 
 ## Endpoints
 
@@ -337,7 +320,6 @@ Confirm the endpoints using `routes/notification.routes.js`.
 | `404` | Requested resource not found |
 | `500` | Unexpected server error |
 
-Additional status codes may be used by other routes or middleware.
 
 ## Testing
 
@@ -360,10 +342,6 @@ Suggested tests include:
 11. Send and retrieve messages.
 12. Verify session notifications.
 
-### Automated Testing
-
-If automated tests are configured in `package.json`, document the test command here.
-
 ## Future Enhancements
 
 - Prevent duplicate session bookings
@@ -376,11 +354,11 @@ If automated tests are configured in `package.json`, document the test command h
 
 ## Team Members
 
-| Name | GitHub | Responsibilities |
+| Name | Responsibilities |
 |---|---|---|
-| [Sara] | [GitHub profile] | Authentication and user management |
-| [Waad] | [GitHub profile] | Skill management |
-| [Raghad] | [GitHub profile] | Session management, availability calendar |
+| [Sara]  | Authentication and user management |
+| [Waad]  | Skill management |
+| [Raghad] | Session management, availability calendar |
 
 ## Credits
 
@@ -392,6 +370,6 @@ If automated tests are configured in `package.json`, document the test command h
 
 SkillSwap was developed as a collaborative student project.
 
-**Backend Repository:** https://github.com/raf266/Project-3-backend
+**Backend Repository:** https://github.com/raf266/SkillSwap-Backend
 
-**Frontend Repository:** https://github.com/raf266/Project-3-frontend
+**Frontend Repository:** https://github.com/raf266/SkillSwap-Frontend
